@@ -1,0 +1,1 @@
+Do not try to run files individually.  The schema won't create correctly if files are run out of order.  Instead, run the powershell script and then run sql script file that is created for you.  
