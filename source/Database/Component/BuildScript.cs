@@ -41,6 +41,13 @@ namespace Database.Components
             });
             this.ExePath = GetType().GetTypeInfo().Assembly.Location;
             StringBuilder stringBuilder = new StringBuilder();
+
+            if (Directory.Exists(this.ComputePath("./schema")))
+            {
+                Console.WriteLine("Writing Schema Files");
+                stringBuilder.Append(this.BuildScriptForDirectory(this.ComputePath("./schema"), "*.sql"));
+                Console.WriteLine();
+            }
             if (Directory.Exists(this.ComputePath("./functions")))
             {
                 Console.WriteLine("Writing Functions");
@@ -65,18 +72,19 @@ namespace Database.Components
                 stringBuilder.Append(this.BuildScriptForDirectory(this.ComputePath("./data"), "*.sql"));
                 Console.WriteLine();
             }
+            if(Directory.Exists(this.ComputePath("./triggers")))
+            {
+                Console.WriteLine("Writing Triggers");
+                stringBuilder.Append(this.BuildScriptForDirectory(this.ComputePath("./triggers"), "*.sql"));
+                Console.WriteLine();
+            }
             if (Directory.Exists(this.ComputePath("./assembly-scripts")))
             {
                 Console.WriteLine("Writing Assemblies");
                 stringBuilder.Append(this.BuildScriptForDirectory(this.ComputePath("./assembly-scripts"), "*.sql"));
                 Console.WriteLine();
             }
-            if (Directory.Exists(this.ComputePath("./schema")))
-            {
-                Console.WriteLine("Writing Schema Files");
-                stringBuilder.Append(this.BuildScriptForDirectory(this.ComputePath("./schema"), "*.sql"));
-                Console.WriteLine();
-            }
+            
             File.WriteAllText(this.ComputePath($"./updates_{DateTime.Now.Year}_{DateTime.Now.Month}_{DateTime.Now.Day}.sql"), stringBuilder.ToString());
         }
 
